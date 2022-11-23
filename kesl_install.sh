@@ -218,7 +218,7 @@ get_versions () {
         if [[ ${version_release} == "testing" ]]; then
             for filename in $prefix/Testing/*; do
     	    if [[ $filename == *".rpm" ]]; then
-		        if [[ $filename == "kesl-gui.rpm" ]]; then
+		        if [[ $filename == "$download_loc/kesl-gui.rpm" ]]; then
 			        package_kesl_gui=$filename
 		        else
 			        package_kesl=$filename
@@ -228,7 +228,7 @@ get_versions () {
         elif [[ ${version_release} == "stable" ]]; then
             for filename in $download_loc/*; do
     	    if [[ $filename == *".rpm" ]]; then
-		        if [[ $filename == "kesl-gui.rpm" ]]; then
+		        if [[ $filename == "$download_loc/kesl-gui.rpm" ]]; then
 			        package_kesl_gui=$filename
 		        else
 			        package_kesl=$filename
@@ -240,9 +240,9 @@ get_versions () {
         if [[ ${version_release} == "testing" ]]; then
             for filename in $prefix/Testing/*; do
 	        if [[ $filename == *".deb" ]]; then
-		        if [[ $filename == "kesl.deb" ]]; then
+		        if [[ $filename == "$download_loc/kesl.deb" ]]; then
 			        package_kesl=$filename
-		        elif [[ $filename == "kesl-gui.deb" ]]; then
+		        elif [[ $filename == "$download_loc/kesl-gui.deb" ]]; then
 			        package_kesl_gui=$filename
 		        fi
 	        fi
@@ -250,9 +250,9 @@ get_versions () {
         elif [[ ${version_release} == "stable" ]]; then
             for filename in $download_loc/*; do
 	        if [[ $filename == *".deb" ]]; then
-		        if [[ $filename == "kesl.deb" ]]; then
+		        if [[ $filename == "$download_loc/kesl.deb" ]]; then
 			        package_kesl=$filename
-		        elif [[ $filename == "kesl-gui.deb" ]]; then
+		        elif [[ $filename == "$download_loc/kesl-gui.deb" ]]; then
 			        package_kesl_gui=$filename
 		        fi
 	        fi
