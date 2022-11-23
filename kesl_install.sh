@@ -10,6 +10,8 @@
 #By running the script, it automatically accepts the EULA and other agreements
 #Notify the user.
 
+prefix=./kaspersky-installer
+download_loc=/tmp
 selected_version="stable"
 skip_prompts=0
 skip_license=0
@@ -118,10 +120,10 @@ sudo -v &>/dev/null
 
 #reset setup.txt contents before trying to configure Kaspersky with broken settings.
 echo -e "Clearing setup file"
-sed -i "s/USE_KSN=.*/USE_KSN=/g" setup.txt
-sed -i "s/LOCALE=.*/LOCALE=/g" setup.txt
-sed -i "s/ADMIN_USER=.*/ADMIN_USER=/g" setup.txt
-sed -i "s/INSTALL_LICENSE=.*/INSTALL_LICENSE=/g" setup.txt
+sed -i "s/USE_KSN=.*/USE_KSN=/g" $prefix/setup.txt
+sed -i "s/LOCALE=.*/LOCALE=/g" $prefix/setup.txt
+sed -i "s/ADMIN_USER=.*/ADMIN_USER=/g" $prefix/setup.txt
+sed -i "s/INSTALL_LICENSE=.*/INSTALL_LICENSE=/g" $prefix/setup.txt
 
 #Test network connection
 echo -e "Testing internet connection...";
@@ -145,7 +147,7 @@ else
     echo "Please confirm that you have fully read, understand, and accept the End User License Agreement (EULA) and Privacy Policy to continue."
     echo -e "\nNOTE: To quit the EULA and Privacy Policy viewer, press the Q key.\n"
     read -t 20 -n 1 -s -r -p "Press ENTER to display the EULA and Privacy Policy:"
-    less doc/license.en
+    less $prefix/doc/license.en
     echo -e "\n Read EULA and Privacy Policy from file \"/opt/kaspersky/kesl/doc/license.en\" (utf-8) if it cannot be read here.\n"
     while true; do
         read -r -p "I confirm that I have fully read, understand, and accept the terms and conditions of this End User License Agreement [y/n]:" eula_answer
@@ -185,7 +187,7 @@ else
     echo -e "\nNOTE: Declining this License will NOT stop the installation"
     echo -e "NOTE: To quit the KSN License viewer, press the Q key.\n"
     read -t 20 -n 1 -s -r -p "Press ENTER to display the KSN statement"
-    less doc/ksn_license.en
+    less $prefix/doc/ksn_license.en
     echo -e "\n\n"
     while true; do
         read -r -p "I confirm that I have fully read, understand, and accept the terms and conditions of the Kaspersky Security Network Statement [y/n]:" ksn_answer
@@ -214,9 +216,9 @@ get_versions () {
     if [[ ${version_os} == "fedora" || ${version_os} == "opensuse"* ]]; then
         #If user selected --testing, query the Testing folder instead of the main folder
         if [[ ${version_release} == "testing" ]]; then
-            for filename in Testing/*; do
+            for filename in $prefix/Testing/*; do
     	    if [[ $filename == *".rpm" ]]; then
-		        if [[ $filename == *"gui"* ]]; then
+		        if [[ $filename == "kesl-gui.rpm" ]]; then
 			        package_kesl_gui=$filename
 		        else
 			        package_kesl=$filename
@@ -224,9 +226,9 @@ get_versions () {
             fi
             done;
         elif [[ ${version_release} == "stable" ]]; then
-            for filename in *; do
+            for filename in $download_loc/*; do
     	    if [[ $filename == *".rpm" ]]; then
-		        if [[ $filename == *"gui"* ]]; then
+		        if [[ $filename == "kesl-gui.rpm" ]]; then
 			        package_kesl_gui=$filename
 		        else
 			        package_kesl=$filename
@@ -236,21 +238,21 @@ get_versions () {
         fi
     else
         if [[ ${version_release} == "testing" ]]; then
-            for filename in Testing/*; do
+            for filename in $prefix/Testing/*; do
 	        if [[ $filename == *".deb" ]]; then
-		        if [[ $filename == *"kesl_"* ]]; then
+		        if [[ $filename == "kesl.deb" ]]; then
 			        package_kesl=$filename
-		        elif [[ $filename == *"gui"* ]]; then
+		        elif [[ $filename == "kesl-gui.deb" ]]; then
 			        package_kesl_gui=$filename
 		        fi
 	        fi
             done;
         elif [[ ${version_release} == "stable" ]]; then
-            for filename in *; do
+            for filename in $download_loc/*; do
 	        if [[ $filename == *".deb" ]]; then
-		        if [[ $filename == *"kesl_"* ]]; then
+		        if [[ $filename == "kesl.deb" ]]; then
 			        package_kesl=$filename
-		        elif [[ $filename == *"gui"* ]]; then
+		        elif [[ $filename == "kesl-gui.deb" ]]; then
 			        package_kesl_gui=$filename
 		        fi
 	        fi
@@ -268,11 +270,11 @@ then
     if [[ ${selected_version} == "testing" ]]; then get_versions $os_name $selected_version
     else
         #Check if files already present in folder
-        cat *.rpm &>/dev/null
+        cat $download_loc/*.rpm &>/dev/null
         if [[ $? -ne 0 ]]; then
             #Download files from Kaspersky site
-            wget https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.2.0.4528/multilanguage-11.2.0.4528/3437313130377c44454c7c31/kesl-11.2.0-4528.x86_64.rpm && echo "Downloaded kesl" || (echo "Something went wrong, please try again"; exit 1)
-            wget https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.2.0.4528/multilanguage-11.2.1.4528/3437373638327c44454c7c4e554c4c/kesl-gui-11.2.0-4528.x86_64.rpm && echo "Downloaded kesl-gui" || (echo "Something went wrong, please try again"; exit 1)
+            wget -O $download_loc/kesl.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.2.0.4528/multilanguage-11.2.0.4528/3437313130377c44454c7c31/kesl-11.2.0-4528.x86_64.rpm && echo "Downloaded kesl" || (echo "Something went wrong, please try again"; exit 1)
+            wget -O $download_loc/kesl-gui.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.2.0.4528/multilanguage-11.2.1.4528/3437373638327c44454c7c4e554c4c/kesl-gui-11.2.0-4528.x86_64.rpm && echo "Downloaded kesl-gui" || (echo "Something went wrong, please try again"; exit 1)
         else
             echo "Packages already downloaded, skipping"
         fi
@@ -292,21 +294,21 @@ then
 		echo "If any of these values are wrong, please Press Ctrl+C to cancel this operation"
 		[[ $skip_prompts ]] && echo "Check skipped" || read -t 20 -n 1 -s -r -p "Or press any key to continue"; echo ""
 		echo "Installing Kaspersky packages..."
-		sudo dnf localinstall ./$package_kesl ./$package_kesl_gui -y &> /dev/null && (echo "Successfully installed Kaspersky"; exit 0) || (c=$?; echo "Something went wrong, please try again"; (exit $c))
+		sudo dnf localinstall $package_kesl $package_kesl_gui -y &> /dev/null && (echo "Successfully installed Kaspersky"; exit 0) || (c=$?; echo "Something went wrong, please try again"; (exit $c))
 	fi
-	echo "Installing perl for autoconfig..."
-	sudo dnf install perl -y &> /dev/null && (echo "Successfully installed Perl"; exit 0) || (c=$?; echo "Something went wrong, please try again"; (exit $c))
+	echo "Installing perl for autoconfig and samba for file interceptor..."
+	sudo dnf install perl samba -y &> /dev/null && (echo "Successfully installed Perl"; exit 0) || (c=$?; echo "Something went wrong, please try again"; (exit $c))
 #######################################################################################################################################################################################################
 #openSUSE
 elif [[ $os_name == "opensuse-"* ]]
 then
     if [[ ${selected_version} == "testing" ]]; then get_versions $os_name $selected_version
     else
-        cat *.rpm &>/dev/null
+        cat $download_loc/*.rpm &>/dev/null
         if [[ $? -ne 0 ]]; then
             #Download files from Kaspersky site
-            wget https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.2.0.4528/multilanguage-11.2.0.4528/3437313130377c44454c7c31/kesl-11.2.0-4528.x86_64.rpm && echo "Downloaded kesl" || (echo "Something went wrong, please try again"; exit 1)
-            wget https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.2.0.4528/multilanguage-11.2.1.4528/3437373638327c44454c7c4e554c4c/kesl-gui-11.2.0-4528.x86_64.rpm && echo "Downloaded kesl-gui" || (echo "Something went wrong, please try again"; exit 1)
+            wget -O $download_loc/kesl.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.2.0.4528/multilanguage-11.2.0.4528/3437313130377c44454c7c31/kesl-11.2.0-4528.x86_64.rpm && echo "Downloaded kesl" || (echo "Something went wrong, please try again"; exit 1)
+            wget -O $download_loc/kesl-gui.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.2.0.4528/multilanguage-11.2.1.4528/3437373638327c44454c7c4e554c4c/kesl-gui-11.2.0-4528.x86_64.rpm && echo "Downloaded kesl-gui" || (echo "Something went wrong, please try again"; exit 1)
         else
             echo "Packages already downloaded, skipping"
         fi
@@ -340,10 +342,10 @@ else
     if [[ ${selected_version} == "testing" ]]; then get_versions $os_name $selected_version
     #Download files from Kaspersky site
     else
-        cat *.deb &>/dev/null
+        cat $download_loc/*.deb &>/dev/null
         if [[ $? -ne 0 ]]; then
-            wget https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.2.0.4528/multilanguage-11.2.0.4528/3437313131347c44454c7c31/kesl_11.2.0-4528_amd64.deb && echo "Downloaded kesl_amd64.deb" || (echo "Something went wrong, please try again"; exit 1)
-            wget https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.2.0.4528/multilanguage-11.2.1.4528/3437373638347c44454c7c4e554c4c/kesl-gui_11.2.0-4528_amd64.deb && echo "Downloaded kesl-gui_amd64.deb" || (echo "Something went wrong, please try again"; exit 1)
+            wget -O $download_loc/kesl.deb https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.2.0.4528/multilanguage-11.2.0.4528/3437313131347c44454c7c31/kesl_11.2.0-4528_amd64.deb && echo "Downloaded kesl_amd64.deb" || (echo "Something went wrong, please try again"; exit 1)
+            wget -O $download_loc/kesl-gui.deb https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.2.0.4528/multilanguage-11.2.1.4528/3437373638347c44454c7c4e554c4c/kesl-gui_11.2.0-4528_amd64.deb && echo "Downloaded kesl-gui_amd64.deb" || (echo "Something went wrong, please try again"; exit 1)
         else
             echo "Packages already downloaded, skipping"
         fi
@@ -413,15 +415,15 @@ else
 fi
 #change values in setup.txt
 echo "Modifying setup file"
-[[ $ksn_answer == 1 ]] && sed -i "s/USE_KSN=/USE_KSN=yes/g" setup.txt || sed -i "s/USE_KSN=/USE_KSN=no/g" setup.txt
-sed -i "s/LOCALE=/LOCALE=${setup_locale}/g" setup.txt
-sed -i "s/ADMIN_USER=/ADMIN_USER=${setup_user}/g" setup.txt
-sed -i "s/INSTALL_LICENSE=/INSTALL_LICENSE=${license,,}/g" setup.txt
+[[ $ksn_answer == 1 ]] && sed -i "s/USE_KSN=/USE_KSN=yes/g" $prefix/setup.txt || sed -i "s/USE_KSN=/USE_KSN=no/g" $prefix/setup.txt
+sed -i "s/LOCALE=/LOCALE=${setup_locale}/g" $prefix/setup.txt
+sed -i "s/ADMIN_USER=/ADMIN_USER=${setup_user}/g" $prefix/setup.txt
+sed -i "s/INSTALL_LICENSE=/INSTALL_LICENSE=${license,,}/g" $prefix/setup.txt
 
 #Run install script with autoinstall config @setup.txt
 echo "Running kaspersky autoinstall script..."
 echo "This can take a while"
-sudo /opt/kaspersky/kesl/bin/kesl-setup.pl --autoinstall=setup.txt && (echo "Successfully configured Kaspersky"; exit 0) || (c=$?; echo "Something went wrong, please try again"; (exit $c))
+sudo /opt/kaspersky/kesl/bin/kesl-setup.pl --autoinstall=$prefix/setup.txt && (echo "Successfully configured Kaspersky"; exit 0) || (c=$?; echo "Something went wrong, please try again"; (exit $c))
 
 #Elementary en Fedora doen niet aan tray icons
 if [[ $os_name != "elementary" && $os_name != "fedora" ]]
@@ -452,10 +454,10 @@ fi
 
 #reset setup.txt contents
 echo "clearing setup file"
-sed -i "s/USE_KSN=.*/USE_KSN=/g" setup.txt
-sed -i "s/LOCALE=${setup_locale}/LOCALE=/g" setup.txt
-sed -i "s/ADMIN_USER=${setup_user}/ADMIN_USER=/g" setup.txt
-sed -i "s/INSTALL_LICENSE=${license}/INSTALL_LICENSE=${license}/g" setup.txt
+sed -i "s/USE_KSN=.*/USE_KSN=/g" $prefix/setup.txt
+sed -i "s/LOCALE=${setup_locale}/LOCALE=/g" $prefix/setup.txt
+sed -i "s/ADMIN_USER=${setup_user}/ADMIN_USER=/g" $prefix/setup.txt
+sed -i "s/INSTALL_LICENSE=${license}/INSTALL_LICENSE=${license}/g" $prefix/setup.txt
 
 #restart Kaspersky to fix issue 3
 #Promt user if they want to apply the fix now, or want to restart the device.
