@@ -18,11 +18,19 @@
         name: kesl*
         state: absent
     
+    - name: Remove old installation files (clear /tmp directory)
+      file:
+        path: "/tmp/{{ item }}"
+        state: absent
+      with_items:
+        - kesl.rpm
+        - kesl-gui.rpm
+    
     - name: Run kesl install script
       expect:
         command: "{{ playbook_dir }}/kaspersky-installer/kesl_install.sh -i"
         responses:
           ".*sudo.*": "{{ sudo_password }}"
           ".*license.*": "{{ kaspersky_key }}"
-          ".*reboot.*": "y"
+          ".*reboot.*": "N"
         timeout: 500
