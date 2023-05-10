@@ -2,8 +2,8 @@
 #Script to easily install Kaspersky and set the right parameters automatically.
 #
 #Argument options
-#Stable = Publically available version (kesl_11.2.0-4528_amd64)
-#Testing = Highest available version numer (kesl_11.2.2-5948_amd64)
+#Stable = Publically available version (kesl_11.4)
+#Testing = Highest available version numer (kesl_11.4)
 #Variables:
 #$selected_version="stable/testing"
 #
