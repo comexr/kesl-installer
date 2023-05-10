@@ -273,8 +273,8 @@ then
         cat $download_loc/*.rpm &>/dev/null
         if [[ $? -ne 0 ]]; then
             #Download files from Kaspersky site
-            wget -O $download_loc/kesl.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.2.0.4528/multilanguage-11.2.0.4528/3437313130377c44454c7c31/kesl-11.2.0-4528.x86_64.rpm && echo "Downloaded kesl" || (echo "Something went wrong, please try again"; exit 1)
-            wget -O $download_loc/kesl-gui.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.2.0.4528/multilanguage-11.2.1.4528/3437373638327c44454c7c4e554c4c/kesl-gui-11.2.0-4528.x86_64.rpm && echo "Downloaded kesl-gui" || (echo "Something went wrong, please try again"; exit 1)
+            wget -O $download_loc/kesl.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.4.0.1096/multilanguage-11.4.0.1096/3732393737337c44454c7c31/kesl-11.4.0-1096.x86_64.rpm && echo "Downloaded kesl" || (echo "Something went wrong, please try again"; exit 1)
+            wget -O $download_loc/kesl-gui.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/11.4.0.1096/multilanguage-11.4.0.1096/3732393737367c44454c7c31/kesl-gui-11.4.0-1096.x86_64.rpm && echo "Downloaded kesl-gui" || (echo "Something went wrong, please try again"; exit 1)
         else
             echo "Packages already downloaded, skipping"
         fi
