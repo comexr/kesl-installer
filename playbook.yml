@@ -13,6 +13,7 @@
         ansible_become_pass: "{{ sudo_password}}"
     
     - name: Remove old Kaspersky version (if installed)
+      when: ansible_facts.packages['kesl'] is defined
       become: yes
       package:
         name: kesl*
