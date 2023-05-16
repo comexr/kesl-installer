@@ -8,6 +8,10 @@
       private: no
       
   tasks:
+    - name: Gather facts about installed packages
+      package_facts:
+        manager: "auto"
+    
     - name: Create software list/set sudo password
       set_fact:
         ansible_become_pass: "{{ sudo_password}}"
