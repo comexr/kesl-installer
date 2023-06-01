@@ -21,6 +21,7 @@
       package:
         name: kesl*
         state: absent
+      failed_when: false  
     
     - name: Remove old installation files (clear /tmp directory)
       file:
