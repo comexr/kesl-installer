@@ -364,7 +364,7 @@ else
 		echo "If any of these values are wrong, please Press Ctrl+C to cancel this operation"
 		[[ $skip_prompts ]] && echo "Check skipped" || read -t 20 -n 1 -s -r -p "Or press any key to continue"; echo ""
 		echo "Installing Kaspersky packages..."
-		sudo apt install ./$package_kesl ./$package_kesl_gui samba -y && (echo "Successfully installed Kaspersky"; exit 0) || (c=$?; echo "Something went wrong, please try again"; (exit $c))
+		sudo apt install $package_kesl $package_kesl_gui samba -y && (echo "Successfully installed Kaspersky"; exit 0) || (c=$?; echo "Something went wrong, please try again"; (exit $c))
     fi
 	echo "Installing perl for autoconfig..."
 	sudo apt install perl -y &> /dev/null && (echo "Successfully installed Perl"; exit 0) || (c=$?; echo "Something went wrong, please try again"; (exit $c))
