@@ -345,7 +345,7 @@ else
         cat $download_loc/kesl*.deb &>/dev/null
         if [[ $? -ne 0 ]]; then
             wget -O $download_loc/kesl.deb https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.1.0.1297/multilanguage-12.1.0.1297/3837323739337c44454c7c31/kesl_12.1.0-1297_amd64.deb && echo "Downloaded kesl_amd64.deb" || (echo "Something went wrong, please try again"; exit 1)
-            wget -O $download_loc/kesl-gui.deb https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.1.0.1297/multilanguage-12.1.0.1297/3837323739397c44454c7c31/kesl-gui_12.1.0-1297_amd64.deb" || (echo "Something went wrong, please try again"; exit 1)
+            wget -O $download_loc/kesl-gui.deb https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.1.0.1297/multilanguage-12.1.0.1297/3837323739397c44454c7c31/kesl-gui_12.1.0-1297_amd64.deb || (echo "Something went wrong, please try again"; exit 1)
         else
             echo "Packages already downloaded, skipping"
         fi
