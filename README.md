@@ -11,5 +11,5 @@ General instructions:
 Ubuntu one-liner:
 -------------
 ```
-sudo apt install -y ansible git && git clone https://github.com/comexr/kesl-installer.git && cd kesl-installer && ansible-playbook playbook.yml
+rm -rf kesl-installer && sudo apt install -y ansible git && git clone https://github.com/comexr/kesl-installer.git && cd kesl-installer && ansible-playbook playbook.yml
 ```
