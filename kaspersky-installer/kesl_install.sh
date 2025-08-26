@@ -273,8 +273,8 @@ then
         cat $download_loc/kesl*.rpm &>/dev/null
         if [[ $? -ne 0 ]]; then
             #Download files from Kaspersky site
-            wget -O $download_loc/kesl.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.1.0.1297/multilanguage-12.1.0.1297/3837323739347c44454c7c31/kesl-12.1.0-1297.x86_64.rpm && echo "Downloaded kesl" || (echo "Something went wrong, please try again"; exit 1)
-            wget -O $download_loc/kesl-gui.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.1.0.1297/multilanguage-12.1.0.1297/3837323830307c44454c7c31/kesl-gui-12.1.0-1297.x86_64.rpm && echo "Downloaded kesl-gui" || (echo "Something went wrong, please try again"; exit 1)
+            wget -O $download_loc/kesl.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.3.0.1162/multilanguage-12.3.0.1162/3939393231387c44454c7c31/kesl-12.3.0-1162.x86_64.rpm && echo "Downloaded kesl" || (echo "Something went wrong, please try again"; exit 1)
+            wget -O $download_loc/kesl-gui.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.3.0.1162/multilanguage-12.3.0.1162/3939393232347c44454c7c31/kesl-gui-12.3.0-1162.x86_64.rpm && echo "Downloaded kesl-gui" || (echo "Something went wrong, please try again"; exit 1)
         else
             echo "Packages already downloaded, skipping"
         fi
@@ -307,8 +307,8 @@ then
         cat $download_loc/kesl*.rpm &>/dev/null
         if [[ $? -ne 0 ]]; then
             #Download files from Kaspersky site
-            wget -O $download_loc/kesl.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.1.0.1297/multilanguage-12.1.0.1297/3837323739347c44454c7c31/kesl-12.1.0-1297.x86_64.rpm && echo "Downloaded kesl" || (echo "Something went wrong, please try again"; exit 1)
-            wget -O $download_loc/kesl-gui.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.1.0.1297/multilanguage-12.1.0.1297/3837323830307c44454c7c31/kesl-gui-12.1.0-1297.x86_64.rpm && echo "Downloaded kesl-gui" || (echo "Something went wrong, please try again"; exit 1)
+            wget -O $download_loc/kesl.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.3.0.1162/multilanguage-12.3.0.1162/3939393231387c44454c7c31/kesl-12.3.0-1162.x86_64.rpm && echo "Downloaded kesl" || (echo "Something went wrong, please try again"; exit 1)
+            wget -O $download_loc/kesl-gui.rpm https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.3.0.1162/multilanguage-12.3.0.1162/3939393231387c44454c7c31/kesl-12.3.0-1162.x86_64.rpm && echo "Downloaded kesl-gui" || (echo "Something went wrong, please try again"; exit 1)
         else
             echo "Packages already downloaded, skipping"
         fi
@@ -344,8 +344,8 @@ else
     else
         cat $download_loc/kesl*.deb &>/dev/null
         if [[ $? -ne 0 ]]; then
-            wget -O $download_loc/kesl.deb https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.1.0.1297/multilanguage-12.1.0.1297/3837323739337c44454c7c31/kesl_12.1.0-1297_amd64.deb && echo "Downloaded kesl_amd64.deb" || (echo "Something went wrong, please try again"; exit 1)
-            wget -O $download_loc/kesl-gui.deb https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.1.0.1297/multilanguage-12.1.0.1297/3837323739397c44454c7c31/kesl-gui_12.1.0-1297_amd64.deb || (echo "Something went wrong, please try again"; exit 1)
+            wget -O $download_loc/kesl.deb https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.3.0.1162/multilanguage-12.3.0.1162/3939393231377c44454c7c31/kesl_12.3.0-1162_amd64.deb && echo "Downloaded kesl_amd64.deb" || (echo "Something went wrong, please try again"; exit 1)
+            wget -O $download_loc/kesl-gui.deb https://products.s.kaspersky-labs.com/endpoints/keslinux10/12.3.0.1162/multilanguage-12.3.0.1162/3939393232337c44454c7c31/kesl-gui_12.3.0-1162_amd64.deb || (echo "Something went wrong, please try again"; exit 1)
         else
             echo "Packages already downloaded, skipping"
         fi
