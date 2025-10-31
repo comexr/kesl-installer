@@ -39,3 +39,7 @@
           ".*license.*": "{{ kaspersky_key }}"
           ".*reboot.*": "N"
         timeout: 500
+
+    - name: Make current user admin (if not already)
+      become: yes
+      shell: kesl-control --grant-role admin {{ ansible_user_id }}
